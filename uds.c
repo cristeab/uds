@@ -359,7 +359,7 @@ static void *request_handle_routine(void *arg)
         resp->checksum = compute_checksum(resp, resp_len);
 
         /* Send response */
-        bytes = send(sc->client_fd, resp, resp_len, MSG_NOSIGNAL);
+        bytes = send(sc->client_fd, resp, resp_len, 0);
         if (resp != (uds_command_t *)buf) {    /* If NOT local buffer, free it */
             free(resp);
         }
@@ -631,7 +631,7 @@ uds_command_t *client_send_request(uds_client_t *c, uds_command_t *req)
     req->signature = UDS_SIGNATURE;
     req->checksum = 0;
     req->checksum = compute_checksum(req, req_len);
-    bytes = send(c->sockfd, req, req_len, MSG_NOSIGNAL);
+    bytes = send(c->sockfd, req, req_len, 0);
     if (bytes != req_len) {
         perror("send error");
         return NULL;
