@@ -52,7 +52,7 @@ uds_command_t *cmd_get_msg(void)
     res = (uds_response_get_msg_t *)malloc(sizeof(uds_response_get_msg_t));
     if (res != NULL) {
         res->common.status = STATUS_SUCCESS;
-        res->common.data_len = strlen(str);
+        res->common.data_len = strlen(str)+1; /* send the terminating NUL */
         snprintf(res->data, UDS_GET_MSG_SIZE, "%s", str);
         res->data[UDS_GET_MSG_SIZE-1] = 0;
     }
